@@ -18,7 +18,8 @@ class InfoMessage:
 
     def get_message(self) -> None:
         t = asdict(self)
-        return self.MESSAGE.format(*t.values())
+        message = self.MESSAGE.format(*t.values())
+        return message
 
 
 class Training:
@@ -43,13 +44,19 @@ class Training:
     def get_spent_calories(self) -> float:
         pass
 
-    def show_training_info(self) -> InfoMessage:
+    def show_training_info(self) -> InfoMessage:   
+        type = type(self).__name__
+        duration = self.duration
+        distance = self.get_distance()
+        speed = self.get_mean_speed()
+        calories = self.get_spent_calories()
+
         return InfoMessage(
-            type(self).__name__,
-            self.duration,
-            self.get_distance(),
-            self.get_mean_speed(),
-            self.get_spent_calories()
+            type,
+            duration,
+            distance,
+            speed,
+            calories
         )
 
 
@@ -125,13 +132,15 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    name_train = {
+    name_train: list = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
     }
     if workout_type in name_train:
         return name_train[workout_type](*data)
+    else:
+        raise ValueError("Тренировка не найдена")
 
 
 def main(training: Training) -> None:
