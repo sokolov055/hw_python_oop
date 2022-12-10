@@ -44,15 +44,14 @@ class Training:
     def get_spent_calories(self) -> float:
         pass
 
-    def show_training_info(self) -> InfoMessage:   
-        type = type(self).__name__
+    def show_training_info(self) -> InfoMessage:
         duration = self.duration
         distance = self.get_distance()
         speed = self.get_mean_speed()
         calories = self.get_spent_calories()
 
         return InfoMessage(
-            type,
+            type(self).__name__,
             duration,
             distance,
             speed,
