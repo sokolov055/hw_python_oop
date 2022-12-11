@@ -23,9 +23,9 @@ class InfoMessage:
 
 
 class Training:
-    M_IN_KM: int = 1000  # для перевода м в км. Длинна шага задана в м.
-    LEN_STEP: float = 0.65  # задаем длинну шага
-    MIN_IN_H: int = 60  # для перевода
+    M_IN_KM: int = 1000
+    LEN_STEP: float = 0.65
+    MIN_IN_H: int = 60
 
     def __init__(self, action: int, duration: float, weight: float) -> None:
         self.action = action
@@ -60,8 +60,8 @@ class Training:
 
 
 class Running(Training):
-    CALORIES_MEAN_SPEED_MULTIPLIER = 18
-    CALORIES_MEAN_SPEED_SHIFT = 1.79
+    CALORIES_MEAN_SPEED_MULTIPLIER: int = 18
+    CALORIES_MEAN_SPEED_SHIFT: float = 1.79
 
     def get_spent_calories(self) -> float:
 
@@ -131,7 +131,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    name_train: list = {
+    name_train: dict[str, object] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
