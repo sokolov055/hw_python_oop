@@ -3,17 +3,17 @@ from dataclasses import dataclass, asdict
 
 @dataclass
 class InfoMessage:
-    training_type: str
-    duration: float
-    distance: float
-    speed: float
-    calories: float
+    training_type: str = "Тип тренировки: {};"
+    duration: str = "Длительность: {:.3f} ч.;"
+    distance: str = "Ср. скорость: {:.3f} км/ч;"
+    speed: str = "Ср. скорость: {:.3f} км/ч;"
+    calories: str = "Потрачено ккал: {:.3f}."
     MESSAGE = (
-        "Тип тренировки: {}; "
-        "Длительность: {:.3f} ч.; "
-        "Дистанция: {:.3f} км; "
-        "Ср. скорость: {:.3f} км/ч; "
-        "Потрачено ккал: {:.3f}."
+        training_type,
+        duration,
+        distance,
+        speed,
+        calories
     )
 
     def get_message(self) -> None:
@@ -131,15 +131,15 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    name_train: dict[str, object] = {
+    name_train: dict[str, Training] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
     }
     if workout_type in name_train:
         return name_train[workout_type](*data)
-    else:
-        raise ValueError("Тренировка не найдена")
+
+    raise ValueError("Тренировка не найдена")
 
 
 def main(training: Training) -> None:
