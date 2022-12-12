@@ -3,18 +3,20 @@ from dataclasses import dataclass, asdict
 
 @dataclass
 class InfoMessage:
-    training_type: str = "Тип тренировки: {};"
-    duration: str = "Длительность: {:.3f} ч.;"
-    distance: str = "Ср. скорость: {:.3f} км/ч;"
-    speed: str = "Ср. скорость: {:.3f} км/ч;"
-    calories: str = "Потрачено ккал: {:.3f}."
-    MESSAGE = (
-        training_type,
-        duration,
-        distance,
-        speed,
-        calories
-    )
+    def __init__(self, training_type, duration,
+                 distance, speed, calories) -> None:
+        self.training_type = training_type
+        self.duration = duration
+        self.distance = distance
+        self.speed = speed
+        self.calories = calories
+        self.MESSAGE = (
+            f"Тип тренировки: {self.training_type}; "
+            f"Длительность: {self.duration:.3f} ч.; "
+            f"Дистанция: {self.distance:.3f} км; "
+            f"Ср. скорость: {self.speed:.3f} км/ч; "
+            f"Потрачено ккал: {self.calories:.3f}."
+        )
 
     def get_message(self) -> None:
         t = asdict(self)
@@ -49,9 +51,10 @@ class Training:
         distance = self.get_distance()
         speed = self.get_mean_speed()
         calories = self.get_spent_calories()
+        training_type = type(self).__name__
 
         return InfoMessage(
-            type(self).__name__,
+            training_type,
             duration,
             distance,
             speed,
@@ -138,7 +141,6 @@ def read_package(workout_type: str, data: list) -> Training:
     }
     if workout_type in name_train:
         return name_train[workout_type](*data)
-
     raise ValueError("Тренировка не найдена")
 
 
